@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #define MinQueueSize 5
 
-typedef struct QueueRecord* Queue;
+typedef struct QueueRecord *Queue;
 
-struct QueueRecord {
+struct QueueRecord
+{
 
     int Capacity;
     int Front;
     int Rear;
     int Size;
-    int* Array;
-
+    int *Array;
 };
 
 int isEmpty(Queue);
@@ -25,8 +25,8 @@ int Front(Queue);
 void Dequeue(Queue);
 int FrontAndDequeue(Queue);
 
-
-int main(){
+int main()
+{
 
     Queue myQueue = CreateQueue(12);
 
@@ -48,33 +48,40 @@ int main(){
     return 0;
 }
 
-int isEmpty(Queue Q){
+int isEmpty(Queue Q)
+{
     return Q->Size == 0;
 }
 
-int isFull(Queue Q){
+int isFull(Queue Q)
+{
     return Q->Size == Q->Capacity;
 }
 
-Queue CreateQueue(int Capacity){
+Queue CreateQueue(int Capacity)
+{
     Queue Q;
 
-    if(Capacity < MinQueueSize){
+    if (Capacity < MinQueueSize)
+    {
         printf("Queue size is too small\n");
         exit(1);
-
-    } else {
+    }
+    else
+    {
 
         Q = (Queue)malloc(sizeof(struct QueueRecord));
 
-        if(Q == NULL){
+        if (Q == NULL)
+        {
             printf("Out of memory!\n");
             exit(1);
         }
 
-        Q->Array = (int*)malloc(sizeof(int) * Capacity);
+        Q->Array = (int *)malloc(sizeof(int) * Capacity);
 
-        if(Q->Array == NULL){
+        if (Q->Array == NULL)
+        {
             printf("Out of memory!\n");
             exit(1);
         }
@@ -83,86 +90,90 @@ Queue CreateQueue(int Capacity){
         MakeEmpty(Q);
 
         return Q;
-
     }
 }
 
-void MakeEmpty(Queue Q){
+void MakeEmpty(Queue Q)
+{
     Q->Size = 0;
     Q->Front = 1;
     Q->Rear = 0;
-
 }
 
-void DisposeQueue(Queue Q){
+void DisposeQueue(Queue Q)
+{
 
-    if(Q != NULL){
+    if (Q != NULL)
+    {
         free(Q->Array);
         free(Q);
-
     }
 }
 
-int Succ(int Value, Queue Q){
+int Succ(int Value, Queue Q)
+{
 
-    if(++Value == Q->Capacity)
+    if (++Value == Q->Capacity)
         Value = 0;
 
     return Value;
 }
 
-void Enqueue(int X, Queue Q){
+void Enqueue(int X, Queue Q)
+{
 
-    if(isFull(Q)){
+    if (isFull(Q))
+    {
         printf("Full Queue!\n");
-
-    } else {
+    }
+    else
+    {
         Q->Size++;
         Q->Rear = Succ(Q->Rear, Q);
         Q->Array[Q->Rear] = X;
-
     }
 }
 
-int Front(Queue Q){
+int Front(Queue Q)
+{
 
-    if(isEmpty(Q)){
+    if (isEmpty(Q))
+    {
         printf("Empty Queue!\n");
-
-    } else {
+    }
+    else
+    {
         return Q->Array[Q->Front];
-
     }
 }
 
-void Dequeue(Queue Q){
+void Dequeue(Queue Q)
+{
 
-    if(isEmpty(Q)){
+    if (isEmpty(Q))
+    {
         printf("Empty Queue!\n");
-
-    } else {
+    }
+    else
+    {
         Q->Size--;
         Q->Front = Succ(Q->Front, Q);
-
     }
 }
 
-int FrontAndDequeue(Queue Q){
+int FrontAndDequeue(Queue Q)
+{
     int X = 0;
-    if(isEmpty(Q)){
+    if (isEmpty(Q))
+    {
         printf("Empty Queue!\n");
-
-    } else {
+    }
+    else
+    {
         Q->Size--;
         X = Q->Array[Q->Front];
         Q->Front = Succ(Q->Front, Q);
-
     }
 
     return X;
 }
-
-
-
-
-
